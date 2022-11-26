@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charles <charles@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:23:55 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/26 12:05:21 by charles          ###   ########.fr       */
+/*   Updated: 2022/11/26 18:46:07 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "libft.h"
+#include "get_next_line_bonus.h"
+#include "ft_printf.h"
+#include <stdlib.h>
 
 void	*free_tab(char **tab)
 {
@@ -23,49 +27,51 @@ void	*free_tab(char **tab)
 	return (0);
 }
 
-int ft_column_count(char *str)
+size_t	ft_column_count(char **strs)
 {
 	size_t 	i;
-	size_t	count;
 
-	count = 0;
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			count++;
+	while (strs[i])
 		i++;
-	}
-	return (count + 1);
+	return (i);
+}
+
+void init_struct(t_coord *b)
+{
+	b->i = 0;
+	b->y = 0;
+	b->column_count = 0;
+	//b.strs = NULL;
+	//b.line = NULL;
 }
 
 int **lets_pars(int fd)
 {
-	char 	**strs;
-	char 	*line;
-	int		**tab;
-	int		column_count;
-	size_t	y;
-	size_t	i;
-	
-	y = 0;
-	column_count = 0;
-	line = get_next_line(fd);
-	while (line)
+	t_coord b;	
+
+	init_struct(&b);
+	b.tab = (int **) malloc(200 * sizeof(int *));
+	while (1)
 	{
-		i = -1;
-		if (column_count != ft_column_count(line) && column_count != 0)
-			return (0);
-		column_count = ft_column_count(line);
-		strs = ft_split_charset(line, " \n");
-		tab[y] = malloc(column_count * sizeof(int));
-		while (strs[++i])
-			tab[y][i] = ft_atoi(strs[i]);
-		y++;
-		free_tab(strs);
-		free(line);
+		b.i = -1;
+		b.line = get_next_line(fd);
+		if (!b.line)
+			return (free(b.line), NULL);
+		b.strs = ft_split_charset(b.line, " \n");
+		b.column_count = ft_column_count(b.strs);
+		b.tab[b.y] = (int*) malloc(b.column_count * sizeof(int));
+		while (b.strs[++b.i])
+		{
+			b.tab[b.y][b.i] = ft_atoi(b.strs[b.i]);
+			printf("%d ", b.tab[b.y][b.i]);
+		}
+		printf("\n"); 
+		b.y++;
+		free_tab(b.strs);
+		free(b.line);
 	}
-	return (tab);
+	return (b.tab);
 }
 
 #include <stdio.h>
@@ -87,5 +93,5 @@ int main()
 	// 	}
 	// 	i++;
 	// }
-	return (0);
+	// return (0);
 }

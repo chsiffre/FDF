@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 21:01:54 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/24 16:40:08 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/11/26 18:26:35 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	**ft_split_charset(char *str, char *charset)
 
 	i = 0;
 	j = 0;
+	if (!str)
+		return (NULL);
 	nb_str = get_ac(str, charset);
 	strs = malloc(nb_str * sizeof(char *));
 	if (!strs)
