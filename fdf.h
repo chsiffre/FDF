@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: charles <charles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 11:01:16 by charles           #+#    #+#             */
-/*   Updated: 2022/11/26 18:59:53 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:39:46 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ typedef struct s_coord
 int 	**lets_pars(int fd, char *file);
 size_t	ft_column_count(char **str);
 void	init_struct(t_coord *b);
-void	*free_tab(char **tab);
+void	*free_tab(char **tab, char *line);
 
 #endif
