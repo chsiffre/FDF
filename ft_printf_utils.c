@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: charles <charles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:03:10 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/24 16:26:47 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/11/26 10:37:47 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_putnbr_2(int c)
 		return (ft_putstr("-2147483648"));
 	if (c < 0)
 		return (ft_putchar_2('-') + ft_putnbr_2(-c));
-	if (c >= 0 && c <= 9)
+	if (c <= 9)
 		return (ft_putchar_2(c + '0'));
 	return (ft_putnbr_2(c / 10) + ft_putchar_2((c % 10) + '0'));
 }

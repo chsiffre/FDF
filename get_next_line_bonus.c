@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: charles <charles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:27:48 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/24 13:23:59 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/11/26 10:36:32 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*ft_set_line(char *line, char *buff_s)
 
 char	*get_next_line(int fd)
 {
-	static char	buff_s[OPEN_MAX][BUFFER_SIZE + 1];
+	static char	buff_s[10200][BUFFER_SIZE + 1];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)

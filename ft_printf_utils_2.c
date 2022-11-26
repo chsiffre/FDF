@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: charles <charles@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 13:33:11 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/24 16:27:33 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/11/26 10:38:06 by charles          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_conv_address(void *mem)
 
 unsigned	int	ft_putnbr_u(unsigned int n)
 {
-	if (n >= 0 && n <= 9)
+	if (n <= 9)
 		return (ft_putchar_2(n % 10 + '0'));
 	return (ft_putnbr_u(n / 10) + ft_putchar_2(n % 10 + '0'));
 }
