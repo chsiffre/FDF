@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:23:55 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/26 18:46:07 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/11/26 19:25:28 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,36 @@ void init_struct(t_coord *b)
 	b->i = 0;
 	b->y = 0;
 	b->column_count = 0;
+	b->line_count = 0;
 	//b.strs = NULL;
 	//b.line = NULL;
 }
 
-int **lets_pars(int fd)
+int ft_line_count(int fd, char *file)
+{
+	int count;
+	char *line;
+
+	line = get_next_line(fd);
+	free(line);
+	while(line != NULL)
+	{
+		line = get_next_line(fd);
+		free(line);
+		count++;
+	}
+	close(fd);
+	return (count);
+}
+
+int **lets_pars(int fd, char *file)
 {
 	t_coord b;	
 
 	init_struct(&b);
-	b.tab = (int **) malloc(200 * sizeof(int *));
+	b.column_count = ft_line_count(fd, file);
+	fd = open(file, O_RDONLY);
+	b.tab = (int **) malloc(b.column_count * sizeof(int *));
 	while (1)
 	{
 		b.i = -1;
@@ -76,12 +96,15 @@ int **lets_pars(int fd)
 
 #include <stdio.h>
 
-int main()
+int main(int ac, char **argv)
 {
-	int fd = open("file", O_RDONLY);
+	char *file = "file";
+	int fd = open(file, O_RDONLY);
 	int i = 0;
 	int y = 0;
-	int **tab = lets_pars(fd);
+	int **tab = lets_pars(fd, file);
+	free(tab);
+	//free(tab[y]);
 	// while (y <= 20)
 	// {
 	// 	printf("%d ", tab[y][i]);
