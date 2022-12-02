@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/24 11:22:49 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/24 17:55:30 by chsiffre         ###   ########lyon.fr   */
+/*   Created: 2022/11/24 15:17:48 by chsiffre          #+#    #+#             */
+/*   Updated: 2022/11/30 11:15:15 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "libft.h"
+#include "ft_printf.h"
 
-int deal_key(int key, void *param)
+void	ft_putnbr(int n)
 {
-	
-	return (0);
-}
-
-int main()
-{
-	void *mlx_ptr;
-	void *win_ptr;
-
-	mlx_ptr = mlx_init();
-	win_ptr = mlx_new_window(mlx_ptr, 400, 1000, "42 window");
-	mlx_loop(mlx_ptr);
+	if (n == -2147483648)
+	{
+		write(1, "-2147483648", 11);
+		return ;
+	}
+	if (n < 0)
+	{
+		write(1, "-", 1);
+		n = -n;
+	}
+	if (n > 9)
+	{
+		ft_putnbr(n / 10);
+		ft_putchar_2(n % 10 + '0');
+	}
+	if (n >= 0 && n <= 9)
+		ft_putchar_2(n + '0');
 }
