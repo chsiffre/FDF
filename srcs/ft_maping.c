@@ -6,22 +6,24 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 11:16:21 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/12/04 16:46:58 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/12/04 18:38:15 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-void init_coord(t_map *map)
+void init_coord(t_map *map, int i, int j)
 {
+	map->x1 = j;
+	map->y1 = i;
 	map->x1 *= map->size;
-	map->x1 *= map->size;
+	map->i2 *= map->size;
 	map->y1 *= map->size;
-	map->y2 *= map->size;
+	map->j2 *= map->size;
 }
 
-void ft_print_line(t_map *map)
+void ft_print_line(t_map *map, int i, int j)
 {
 	double	delta_x;
 	double	delta_y;
@@ -29,19 +31,19 @@ void ft_print_line(t_map *map)
 	double	pixel_y;
 	int		pixels;
 
-	//init_coord(map);
-	map->z = map->tab[(int)map->x1][(int)map->y1];
-	map->z1 = map->tab[(int)map->x2][(int)map->y2];
-	delta_x = (map->x2 - map->x1);
-	delta_y = (map->y2 - map->y1);
+	init_coord(map, i, j);
 	pixel_x = map->x1;
 	pixel_y = map->y1;
+	delta_x = (map->x2 - map->x1);
+	delta_y = (map->y2 - map->y1);
+	ft_isometric_line(&map->x1, &map->y1, map->high);
+	ft_isometric_line(&map->i2, &map->j2, map->high1);
 	pixels = sqrt((delta_x * delta_x) + (delta_y * delta_y));
 	delta_x /= pixels;
 	delta_y /= pixels;
 	while (pixels--)
 	{
-		if (map->z > 0 || map->z1 > 0)
+		if (map->high > 0 || map->high1 > 0)
 			mlx_pixel_put(map->mlx_ptr, map->win_ptr, pixel_x, pixel_y, 0xFFFFFF);
 		else
 			mlx_pixel_put(map->mlx_ptr, map->win_ptr, pixel_x, pixel_y, 0xff8000);
@@ -50,32 +52,28 @@ void ft_print_line(t_map *map)
 	}
 }
 
-void ft_isometric_line(double *x, double *y, int z)
+void ft_isometric_line(double *y, double *x, int z)
 {
 	*x = (*x - *y) * cos(0.8);
 	*y = (*x - *y) * cos(0.8) - z;
 }
 
-void ft_place_line(t_map *map, int i, int j)
+void ft_place_line(t_map *map, int y, int x)
 {
-	map->x1 = map->min + (map->size * (j - i)) / sqrt(2);
-	map->y1 = map->max - (map->tab[i][j] * map->s->line_count)
-		+ (map->size * (i + j)) / sqrt(6);
-	if (j + 1 < map->s->column_count)
+	map->high = map->tab[y][x];
+	if (x + 1 < map->s->column_count)
 	{
-		map->x2 = map->min + ((map->size * (j + 1)) - (map->size * i)) \
-			/ sqrt(2);
-		map->y2 = map->max - (map->tab[i][j + 1] * map->s->line_count) \
-			+ ((map->size * i) + (map->size * (j + 1))) / sqrt(6);
-		ft_print_line(map);
+		map->i2 = y;
+		map->j2 = x + 1;
+		map->high1 = map->tab[y][x + 1];
+		ft_print_line(map, y, x);
 	}
-	if (i + 1 < map->s->line_count)
+	if (y + 1 < map->s->line_count)
 	{
-		map->x2 = map->min + ((map->size * j) - (map->size * (i + 1))) \
-			/ sqrt(2);
-		map->y2 = map->max - (map->tab[i + 1][j] * map->s->line_count) \
-			+ ((map->size * (i + 1)) + (map->size * j)) / sqrt(6);
-		ft_print_line(map);
+		map->i2 = y + 1;
+		map->j2 = x;
+		map->high1 = map->tab[y + 1][x];
+		ft_print_line(map, y, x);
 	}
 }
 
@@ -91,7 +89,7 @@ void ft_setup_coord(t_map *map)
 		x = 0;
 		while (x < map->s->column_count)
 		{	
-			ft_place_line(map, x, y);
+			ft_place_line(map, y, x);
 			x++;
 		}
 		y++;
