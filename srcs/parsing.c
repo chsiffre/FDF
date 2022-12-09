@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:23:55 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/12/06 17:45:53 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/12/07 16:50:39 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include "libft.h"
 #include "get_next_line_bonus.h"
 #include "ft_printf.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
 
 void	*free_tab(char **tab, char *line)
 {
@@ -96,23 +93,31 @@ int	**lets_pars(int fd, char *file, t_coord *b)
 		free_tab(b->strs, b->line);
 	}
 	b->line_count = ft_line_count(fd, file, b);
+	ft_save_high_max(b);
 	return (b->tab);
 }
 
-// int main(int ac, char **argv)
-// {
-// 	char *file = "file";
-// 	int fd = open(file, O_RDONLY);
-// 	int i = 0;
-// 	int y = 0;
-// 	int **tab = lets_pars(fd, file);
-// 	close(fd);
-// 	while (y < )
-// 	while (y < 20)
-// 	{
-// 	 	free(tab[y]);
-// 		y++;
-// 	}
-// 	free(tab);
-// 	return (0);
-// }
+void	ft_save_high_max(t_coord *b)
+{
+	int x;
+	int y;
+
+	x = 0;
+	y = 0;
+	b->max = 0;
+	b->min = 0;
+	while (y < b->line_count)
+	{
+		x = 0;
+		while (x + 1 < b->column_count)
+		{
+			if (b->tab[y][x] > b->max)
+				b->max = b->tab[y][x + 1];
+			if (b->tab[y][x] <= b->min)
+				b->min = b->tab[y][x];
+			x++;
+		}
+		y++;
+	}
+}
+

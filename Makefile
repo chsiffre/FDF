@@ -1,6 +1,6 @@
 NAME = fdf
 
-CFLAGS =  -g3
+CFLAGS = -Wall -Wextra -Werror
 
 LIB = 	${DIR_SRC}ft_memset.c \
 		${DIR_SRC}ft_bzero.c \

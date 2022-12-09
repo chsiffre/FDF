@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 11:16:21 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/12/06 18:44:17 by chsiffre         ###   ########.fr       */
+/*   Updated: 2022/12/09 14:38:15 by chsiffre         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void ft_print_line(t_map *map)
 {
 	double	delta_x;
 	double	delta_y;
-	double	pixel_x;
-	double	pixel_y;
 	int		pixels;
 
 	ft_isometric_line(&map->x1, &map->y1, map->high, map);
@@ -31,16 +29,44 @@ void ft_print_line(t_map *map)
 	delta_y /= pixels;
 	while (pixels--)
 	{
-		mlx_pixel_put(map->mlx_ptr, map->win_ptr, map->x1, map->y1, 0xff8000);
+		if ((int)map->y1 * WIN_W + (int)map->x1 < WIN_W * WIN_H && \
+				(int)map->x1 < WIN_W && (int)map->x1 > 0 && \
+				(int)map->y1 < WIN_H && (int)map->y1 > 0)
+			map->data[(int)map->y1 * WIN_W + (int)map->x1] = ft_color(map);
 		map->x1 += delta_x;
 		map->y1 += delta_y;
 	}
 }
 
+int	ft_color(t_map *map)
+{
+	int x;
+	
+	x = map->s->max / 8;
+	if (map->high >= x * 8 || map->high1 >= x * 8)
+		return (0xD1380B);
+	else if (map->high > x * 7 || map->high1 > x * 7)
+		return (0x9D450C);
+	else if (map->high > x * 6 || map->high1 > x * 6)
+		return (0xD27C41);
+	else if (map->high > x * 5 || map->high1 > x * 5)
+		return (0xB0AC2D);
+	else if (map->high > x * 4 || map->high1 > x * 4)
+		return (0xA0B02D);
+	else if (map->high > x * 3 || map->high1 > x * 3)
+		return (0x81C822);
+	else if (map->high > x * 2 || map->high1 > x * 2)
+		return (0x8FD71F);
+	else if (map->high > 0 || map->high1 > 0)
+		return (0x63F200);
+	else
+		return (0x1FB0D7);
+}
+
 void ft_isometric_line(double *x, double *y, int z, t_map *map)
 {
-	*x = (*x - *y) * cos(3.14/3);
-	*y = (*x + *y) * sin(3.14/6) - (z * map->alt);
+	*x = (*x - *y) * cos(3.141592654/3);
+	*y = (*x + *y) * sin(3.141592654/6) - (z * map->alt);
 	*x += map->min;
 	*y += (map->max);
 }
@@ -75,6 +101,8 @@ void ft_setup_coord(t_map *map)
 	
 	x = 0;
 	y = 0;
+	map->image = mlx_new_image(map->mlx_ptr, WIN_W, WIN_H);
+	map->data = (int *) mlx_get_data_addr(map->image, &map->bpp, &map->size_l, &map->endian);
 	while (y < map->s->line_count)
 	{
 		x = 0;
@@ -85,25 +113,6 @@ void ft_setup_coord(t_map *map)
 		}
 		y++;
 	}
-}
+	mlx_put_image_to_window(map->mlx_ptr, map->win_ptr, map->image, 0, 0);
 
-t_map	*ft_init_structure(t_map *map, int fd, char *file)
-{
-	map->s = init_struct(malloc(sizeof(t_coord)));
-	map->tab = lets_pars(fd, file, map->s);
-	map->mlx_ptr = mlx_init();
-	map->win_ptr = mlx_new_window(map->mlx_ptr, WIN_W, WIN_H, "42");
-	map->x1 = 0;
-	map->x2 = 1;
-	map->y1 = 0;
-	map->y2 = 1;
-	map->alt = 1;
-	map->size = round(WIN_W / (map->s->column_count + map->s->line_count - 2));
-	map->min = (WIN_W - ((map->s->line_count + map->s->column_count) * map->size) / sqrt(2)) / 2;
-	map->min += map->s->line_count * map->size / sqrt(2);
-	map->max = (WIN_H * 3/2 - (map->s->line_count * map->size + map->s->column_count * map->size) / sqrt(6)) / 2;
-	ft_setup_coord(map);
-	mlx_key_hook(map->win_ptr, deal_key, map);
-	mlx_loop(map->mlx_ptr);
-	return (map);
 }
