@@ -54,8 +54,11 @@ LIB = 	${DIR_SRC}ft_memset.c \
 		${DIR_SRC}ft_printf_utils_2.c
 
 FDF =	${DIR_FDF}parsing.c \
+		${DIR_FDF}parsing_2.c \
+		${DIR_FDF}utils.c \
 		${DIR_FDF}ft_maping.c \
 		${DIR_FDF}main.c
+
 		
 
 LIST_OBJS = ${LIB:.c=.o} ${FDF:.c=.o}
@@ -65,15 +68,14 @@ DIR_SRC = libft/
 DIR_FDF = srcs/
 DIR_HEADERS = includes/
 
-MLX = -framework OpenGL -framework AppKit -Lmlx -lmlx -lm
-
+MLX = -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -lm -lz
 all : $(NAME)
 
 %.o: %.c $(DIR_SRC)libft.h Makefile
-	$(CC) $(CFLAGS) -I $(DIR_SRC) -I $(DIR_FDF) -I mlx -c $< -o ${<:.c=.o} 
+	$(CC)  $(CFLAGS) -I $(DIR_SRC) -I $(DIR_FDF) -I mlx -c $< -o ${<:.c=.o} 
 
 $(NAME) : $(LIST_OBJS)
-	$(CC) $(LIST_OBJS) -o $(NAME) $(MLX)
+	$(CC)  $(LIST_OBJS) -o $(NAME) $(MLX)
 
 clean:
 	rm -rf $(LIST_OBJS)

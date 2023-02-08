@@ -6,45 +6,11 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:23:55 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/12/07 16:50:39 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/08 19:15:18 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "libft.h"
-#include "get_next_line_bonus.h"
-#include "ft_printf.h"
-
-void	*free_tab(char **tab, char *line)
-{
-	size_t	i;
-
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-	free(line);
-	return (0);
-}
-
-ssize_t	ft_column_count(char **strs)
-{
-	size_t	i;
-
-	i = 0;
-	while (strs[i])
-		i++;
-	return (i);
-}
-
-t_coord	*init_struct(t_coord *b)
-{
-	b->i = 0;
-	b->y = 0;
-	b->column_count = 0;
-	b->line_count = 0;
-	return (b);
-}
 
 ssize_t	ft_line_count(int fd, char *file, t_coord *b)
 {
@@ -99,8 +65,8 @@ int	**lets_pars(int fd, char *file, t_coord *b)
 
 void	ft_save_high_max(t_coord *b)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
@@ -120,4 +86,3 @@ void	ft_save_high_max(t_coord *b)
 		y++;
 	}
 }
-

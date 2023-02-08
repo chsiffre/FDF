@@ -6,85 +6,69 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:22:49 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/12/09 14:38:11 by chsiffre         ###   ########lyon.fr   */
+/*   Updated: 2023/02/08 19:33:44 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "fdf.h"
-#include "ft_printf.h"
-#include "get_next_line_bonus.h"
-#include <stdio.h>
 
-void ft_exit(t_map *map)
+int	main(int ac, char **av)
 {
-	int	y;
-	int i;
+	int		fd;
+	t_map	*map;
 
-	i = 0;
-	y = -1;
-	while (++y < map->s->line_count)
-		free(map->tab[y]);
-	free(map->tab);
-	exit(0);
-	return ;
-}
-
-int	deal_key(int key, t_map *map)
-{
-	if (key == 78)
-		map->size += 1;
-	if (key == 69)
-		map->size -= 1;
-	if (key == 53)
-		ft_exit(map);
-	if (key == 46)
-		map->alt += 0.1;
-	if (key == 45)
-		map->alt -= 0.1;
-	if (key == 126)
-		map->max += 20;
-	if (key == 125)
-		map->max -= 20;
-	if (key == 124)
-		map->min -= 20;
-	if (key == 123)
-		map->min += 20;
-	mlx_clear_window(map->mlx_ptr, map->win_ptr);
-	ft_setup_coord(map);
+	if (ac != 2)
+		return (0);
+	if (ft_parse_arg(av[1]))
+		return (0);
+	map = malloc(sizeof(t_map));
+	if (!map)
+		return (0);
+	fd = open(av[1], O_RDONLY);
+	if (!fd)
+		return (0);
+	map = ft_init_structure(map, fd, av[1]);
+	if (!map)
+		return (0);
+	close(fd);
 	return (0);
 }
 
-t_map	*ft_init_structure(t_map *map, int fd, char *file)
+void	choose_view(t_map *map)
 {
-	map->s = init_struct(malloc(sizeof(t_coord)));
-	map->tab = lets_pars(fd, file, map->s);
-	if (!map->tab)
-		return (NULL);
-	map->mlx_ptr = mlx_init();
-	map->win_ptr = mlx_new_window(map->mlx_ptr, WIN_W, WIN_H, "42");
-	map->x1 = 0;
-	map->x2 = 1;
-	map->y1 = 0;
-	map->y2 = 1;
-	map->alt = 1;
-	map->size = round((WIN_W + WIN_H) / 2) / (map->s->column_count + map->s->line_count - 2);
-	map->min = (WIN_W - ((map->s->line_count + map->s->column_count) * map->size) / sqrt(2)) / 2;
-	map->min += map->s->line_count * map->size / sqrt(2);
-	map->max = (WIN_H * 3/2 - (map->s->line_count * map->size + map->s->column_count * map->size) / sqrt(6)) / 2;
-	ft_setup_coord(map);
-	mlx_key_hook(map->win_ptr, deal_key, map);
-	mlx_loop(map->mlx_ptr);
-	return (map);
+	if (map->view == 0)
+	{
+		ft_isometric(&map->x1, &map->y1, map->high, map);
+		ft_isometric(&map->x2, &map->y2, map->high1, map);
+	}
+	else if (map->view == 1)
+	{
+		ft_2d(&map->x1, &map->y1, map);
+		ft_2d(&map->x2, &map->y2, map);
+	}
 }
 
-int main()
+int	ft_color(t_map *map)
 {
-	t_map *map;
-	map = malloc(sizeof(t_map));
-	char *file = "file";
-	int fd = open(file, O_RDONLY);
-	ft_init_structure(map, fd, file);
-	close(fd);
-	return 0;
+	int	x;
+
+	x = map->s->max / 8;
+	if (map->high >= x * 8 || map->high1 >= x * 8)
+		return (0xD1380B);
+	else if (map->high > x * 7 || map->high1 > x * 7)
+		return (0x9D450C);
+	else if (map->high > x * 6 || map->high1 > x * 6)
+		return (0xD27C41);
+	else if (map->high > x * 5 || map->high1 > x * 5)
+		return (0xB0AC2D);
+	else if (map->high > x * 4 || map->high1 > x * 4)
+		return (0xA0B02D);
+	else if (map->high > x * 3 || map->high1 > x * 3)
+		return (0x81C822);
+	else if (map->high > x * 2 || map->high1 > x * 2)
+		return (0x8FD71F);
+	else if (map->high > 0 || map->high1 > 0)
+		return (0x63F200);
+	else
+		return (0x1FB0D7);
 }
