@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: charles <charles@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 12:27:48 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/26 10:36:32 by charles          ###   ########.fr       */
+/*   Updated: 2023/02/09 12:57:28 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,3 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (ft_set_line(line, buff_s[fd]));
 }
-

@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 14:27:12 by chsiffre          #+#    #+#             */
-/*   Updated: 2022/11/24 16:25:38 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:56:52 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,3 @@ int	ft_printf_2(va_list args, char c)
 	else
 		return (ft_putchar_2(c));
 }
-

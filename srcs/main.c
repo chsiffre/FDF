@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 11:22:49 by chsiffre          #+#    #+#             */
-/*   Updated: 2023/02/08 19:33:44 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:53:23 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int ac, char **av)
 	if (!map)
 		return (0);
 	fd = open(av[1], O_RDONLY);
-	if (!fd)
+	if (fd == -1)
 		return (0);
 	map = ft_init_structure(map, fd, av[1]);
 	if (!map)

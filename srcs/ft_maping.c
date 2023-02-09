@@ -6,13 +6,13 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 11:16:21 by chsiffre          #+#    #+#             */
-/*   Updated: 2023/02/08 19:34:09 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/09 12:53:57 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_print_isometric_line(t_map *map)
+void	ft_print_line(t_map *map)
 {
 	double	delta_x;
 	double	delta_y;
@@ -59,7 +59,7 @@ void	ft_place_line(t_map *map, int y, int x)
 		map->x1 = x * map->size;
 		map->y1 = y * map->size;
 		map->high1 = map->tab[y][x + 1];
-		ft_print_isometric_line(map);
+		ft_print_line(map);
 	}
 	if (y + 1 < map->s->line_count)
 	{
@@ -68,7 +68,7 @@ void	ft_place_line(t_map *map, int y, int x)
 		map->x2 = x * map->size;
 		map->y2 = (y + 1) * map->size;
 		map->high1 = map->tab[y + 1][x];
-		ft_print_isometric_line(map);
+		ft_print_line(map);
 	}
 }
 
