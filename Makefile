@@ -72,10 +72,10 @@ MLX = -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -lm -lz
 all : $(NAME)
 
 %.o: %.c $(DIR_SRC)libft.h Makefile
-	$(CC)  $(CFLAGS) -I $(DIR_SRC) -I $(DIR_FDF) -I mlx -c $< -o ${<:.c=.o} 
+	$(CC) $(CFLAGS) -I $(DIR_SRC) -I $(DIR_FDF) -I mlx -c $< -o ${<:.c=.o} 
 
 $(NAME) : $(LIST_OBJS)
-	$(CC)  $(LIST_OBJS) -o $(NAME) $(MLX)
+	$(CC) $(LIST_OBJS) -o $(NAME) $(MLX)
 
 clean:
 	rm -rf $(LIST_OBJS)

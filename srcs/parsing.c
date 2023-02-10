@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:23:55 by chsiffre          #+#    #+#             */
-/*   Updated: 2023/02/08 19:15:18 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/10 11:19:49 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,15 @@ int	**lets_pars(int fd, char *file, t_coord *b)
 	b->tab = (int **) malloc(ft_line_count(fd, file, b) * sizeof(int *));
 	if (!b->tab)
 		return (NULL);
-	while (1)
+	while (++b->y || 1)
 	{
 		b->i = -1;
 		b->line = get_next_line(fd);
 		if (!b->line)
 			break ;
 		b->strs = ft_split_charset(b->line, " \n");
+		if (!b->strs)
+			return (free(b->line), NULL);
 		if (b->column_count != ft_column_count(b->strs) && b->column_count != 0)
 			return (free_tab(b->strs, b->line), NULL);
 		b->column_count = ft_column_count(b->strs);
@@ -55,7 +57,6 @@ int	**lets_pars(int fd, char *file, t_coord *b)
 			return (free_tab(b->strs, b->line), NULL);
 		while (b->strs[++b->i])
 			b->tab[b->y][b->i] = ft_atoi(b->strs[b->i]);
-		b->y++;
 		free_tab(b->strs, b->line);
 	}
 	b->line_count = ft_line_count(fd, file, b);

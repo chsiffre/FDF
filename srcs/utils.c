@@ -6,15 +6,11 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 18:56:21 by chsiffre          #+#    #+#             */
-/*   Updated: 2023/02/08 19:23:14 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/10 11:41:50 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "libft.h"
-#include "get_next_line_bonus.h"
-#include "ft_printf.h"
-#include "mlx.h"
 
 void	clear_image(t_map *map)
 {
@@ -34,16 +30,13 @@ void	clear_image(t_map *map)
 	}
 }
 
-void	ft_exit(t_map *map)
+t_coord	*init_struct(t_coord *b)
 {
-	int	y;
-
-	y = -1;
-	while (++y < map->s->line_count)
-		free(map->tab[y]);
-	free(map->tab);
-	exit(0);
-	return ;
+	b->i = 0;
+	b->y = -1;
+	b->column_count = 0;
+	b->line_count = 0;
+	return (b);
 }
 
 t_map	*ft_init_structure(t_map *map, int fd, char *file)
@@ -58,7 +51,11 @@ t_map	*ft_init_structure(t_map *map, int fd, char *file)
 	if (!map->mlx_ptr)
 		return (NULL);
 	map->win_ptr = mlx_new_window(map->mlx_ptr, WIN_W, WIN_H, "42");
+	if (!map->win_ptr)
+		return (NULL);
 	map->image = mlx_new_image(map->mlx_ptr, WIN_W, WIN_H);
+	if (!map->image)
+		return (NULL);
 	ft_init_var(map);
 	ft_setup_coord(map);
 	mlx_key_hook(map->win_ptr, deal_key, map);

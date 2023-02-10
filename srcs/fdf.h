@@ -6,7 +6,7 @@
 /*   By: chsiffre <chsiffre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 11:01:16 by charles           #+#    #+#             */
-/*   Updated: 2023/02/09 12:54:11 by chsiffre         ###   ########.fr       */
+/*   Updated: 2023/02/10 11:42:32 by chsiffre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,24 @@ typedef struct s_map
 	t_coord	*s;
 }	t_map;
 
-void	choose_view(t_map *map);
-void	ft_init_var(t_map *map);
+void	ft_print_line(t_map *map);
 void	ft_2d(double *x, double *y, t_map *map);
+void	ft_isometric(double *x, double *y, int z, t_map *map);
+void	ft_place_line(t_map *map, int y, int x);
+int		ft_setup_coord(t_map *map);
 int		**lets_pars(int fd, char *file, t_coord *b);
 ssize_t	ft_column_count(char **str);
 ssize_t	ft_line_count(int fd, char *file, t_coord *b);
 void	ft_save_high_max(t_coord *b);
 t_coord	*init_struct(t_coord *b);
 void	*free_tab(char **tab, char *line);
-void	ft_isometric(double *x, double *y, int z, t_map *map);
-void	ft_print_line(t_map *map);
 t_map	*ft_init_structure(t_map *map, int fd, char *file);
-int		ft_setup_coord(t_map *map);
+void	ft_init_var(t_map *map);
+void	clear_image(t_map *map);
 int		deal_key(int key, t_map *map);
-int		ft_color(t_map *map);
 int		ft_parse_arg(char *str);
-
+int		ft_color(t_map *map);
+void	choose_view(t_map *map);
+void	ft_exit(t_map *map);
+int		ft_parse_arg(char *str);
 #endif
